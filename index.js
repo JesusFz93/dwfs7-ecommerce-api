@@ -1,9 +1,17 @@
+// 1. IMPORTACIONES
+require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 const { v4: uuid } = require("uuid");
 
+// 2.MIDDLEWARES
+app.use(cors());
+app.use(express.json());
+
+// 3.ROUTES
 const usuarios = [
   {
     id: 1,
@@ -19,11 +27,10 @@ const usuarios = [
   },
 ];
 
-app.use(express.json());
-
 app.get("/", (req, res) => {
   return res.json({
     msg: "Lista de usuarios obtenida",
+    autor: process.env.AUTOR,
     data: usuarios,
   });
 });
@@ -92,6 +99,7 @@ app.delete("/:id", (req, res) => {
   });
 });
 
+// 4. SERVIDOR
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
